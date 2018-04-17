@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kindled{% endblock %}
+
+{% block body %}
+
+<h1 class="title">
+	Kindled <sup class="is-size-7">beta</sup>
+</h1>
+<h2 class="subtitle">
+	Read your favourite articles on your Kindle
+</h2>
+<a href="{{ path('pocket.list') }}" class="button is-primary is-inverted is-outlined">pocket</a>
+<!-- <a href="#" class="button is-primary is-inverted is-outlined">url</a> -->
+
+{% endblock %}

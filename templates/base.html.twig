@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Kindled{% endblock %}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="send to kindle, convert to .mobi, pocket to kindle, website to kindle">
+        <meta name="description" content="Kindled lets you to send to your Kindle or download as .mobi your favourite urls and and pocket articles">
+        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+        <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32" />
+        <link rel="icon" type="image/png" href="{{ asset('images/favicon-16x16.png') }}" sizes="16x16" />
+    </head>
+    <body>
+
+        <!-- Header -->
+        <section class="hero is-fullheight is-primary">
+            <div class="hero-head">
+                <nav class="navbar has-text-weight-bold is-uppercase">
+                    <div class="container">
+                        <div class="navbar-brand">
+                            <a class="navbar-item" href="{{ path('home') }}">
+                                <i class="fas fa-fire fa-2x"></i>
+                            </a>
+                            <div class="navbar-burger" data-target="navMenu">
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="navbar-menu" id="navMenu">
+                            <div class="navbar-start">
+                                <a href="{{ path('home') }}" class="navbar-item">
+                                    kindled
+                                </a>
+                                <a href="{{ path('pocket.list') }}" class="navbar-item">
+                                    pocket
+                                </a>
+                                <!-- <a class="navbar-item">
+                                    url
+                                </a> -->
+                            </div> 
+                            <div class="navbar-end">
+                                <a class="navbar-item" href="{{ path('info') }}">
+                                  info
+                                </a>
+                                <a class="navbar-item" href="{{ path('auth.logout') }}">
+                                  logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Message -->
+            {% if message is defined %}
+            <div class="is-notification">
+                <article class="message is-{{ type }}">
+                    <div class="message-header">
+                        <p>{{ title }}</p>
+                        <button class="delete" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        {{ message }}
+                    </div>
+                </article>
+            </div>
+            {% endif %}
+
+            <!-- Body -->
+            <div class="hero-body">
+                <div class="container">
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="hero-foot">
+                <footer class="container">
+                    <div class="section is-uppercase is-size-7">
+                    </div>
+                </footer>
+            </div>
+        </section>
+
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+        <script src="{{ asset('build/js/app.js') }}"></script>
+    </body>
+</html>

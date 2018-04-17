@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kindled | Pocket{% endblock %}
+
+{% block body %}
+
+<div class="columns is-centered is-multiline">
+{% for article in articles %}
+	<div class="column is-fixed is-3">
+		<div class="card">
+
+			<div class="card-image">
+				<figure class="image">
+					<a href="{{ article.resolved_url }}" target="_blank">
+						{% if article.top_image_url is defined %}
+						<img src="{{ article.top_image_url }}" alt="Placeholder image">
+						{% else %}
+						<div class="section has-text-centered has-text-primary">
+							<i class="fas fa-fire fa-4x"></i>
+						</div>
+						{% endif %}
+					</a>
+				</figure>
+			</div>
+
+			<div class="card-content">
+				<div class="content">
+					<p class="has-text-black title is-5"><a href="{{ article.resolved_url }}" target="_blank">{{ article.resolved_title }}</a><p>
+					<p class="has-text-black subtitle is-6">{{ article.excerpt }}<p>
+				</div>
+			</div>
+			<footer class="card-footer has-text-primary">
+			    <a href="{{ path('send') }}?url={{ article.given_url | url_encode }}" class="card-footer-item is-loadable">Send</a>
+			    <!--<a href="#" class="card-footer-item is-loadable">Download</a>-->
+		  	</footer>
+		</div>
+	</div>
+{% endfor %}
+</div>
+
+{% endblock %}
