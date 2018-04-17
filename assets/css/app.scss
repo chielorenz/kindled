@@ -23,6 +23,22 @@ $navbar-box-shadow-size: 0;
 	}
 }
 
+// Articles image
+.image.is-placeholder {
+    height: 159px;
+    width: 318px;
+    background-image: url("../images/kindled.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+
+    img {
+        height: 159px;
+        width: 318px;
+        object-fit: cover;
+        background: #FFF;
+    }
+}
+
 // Toast notification style
 .is-notification {
     position: fixed;
