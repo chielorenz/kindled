@@ -10,13 +10,13 @@
 		<div class="card">
 
 			<div class="card-image">
-				<figure class="image is-placeholder">
-					<a href="{{ article.resolved_url }}" target="_blank">
+				<a href="{{ article.resolved_url }}" target="_blank">
+					<figure class="image is-placeholder">
 						{% if article.top_image_url is defined %}
 						<img src="{{ article.top_image_url }}" alt="Article preview">
 						{% endif %}
-					</a>
-				</figure>
+					</figure>
+				</a>
 			</div>
 
 			<div class="card-content">
