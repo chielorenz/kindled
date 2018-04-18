@@ -17,23 +17,19 @@ $navbar-box-shadow-size: 0;
 .columns.is-centered {
 	justify-content: center;
 
+    // Don't grow, don't shrink, stay at 342px width
 	.column.is-fixed {
-		// don't grow, don't shrink, stay at 342px width
 		flex: 0 0 342px;
 	}
 }
 
 // Articles image
 .image.is-placeholder {
-    height: 159px;
-    width: 318px;
-    background-image: url("../images/kindled.svg");
-    background-repeat: no-repeat;
-    background-position: center;
+    height: 159px; // 16:9 ration on 342px container
+    background: no-repeat center url("../images/kindled.svg");
 
     img {
-        height: 159px;
-        width: 318px;
+        height: 100%;
         object-fit: cover;
         background: #FFF;
     }
