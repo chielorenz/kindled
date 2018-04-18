@@ -11,53 +11,6 @@
         <link rel="icon" type="image/png" href="{{ asset('build/images/favicon-16x16.png') }}" sizes="16x16" />
     </head>
     <body>
-        <!-- navbar -->
-        <nav class="navbar is-primary has-text-weight-bold is-uppercase">
-            <div class="container">
-                <div class="navbar-brand">
-                    <a class="navbar-item" href="{{ path('home') }}">
-                        <i class="fas fa-fire fa-2x"></i>
-                    </a>
-                    <div class="navbar-burger" data-target="navMenu">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </div>
-                </div>
-                <div class="navbar-menu" id="navMenu">
-                    <div class="navbar-start">
-                        <a href="{{ path('home') }}" class="navbar-item">
-                            kindled
-                        </a>
-                        <a href="{{ path('pocket.list') }}" class="navbar-item">
-                            pocket
-                        </a>
-                        <!-- <a class="navbar-item">
-                            url
-                        </a> -->
-                    </div> 
-                    <div class="navbar-end">
-                        <a class="navbar-item" href="{{ path('info') }}">
-                          info
-                        </a>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link">
-                              account
-                            </a>
-                            <div class="navbar-dropdown is-right is-boxed ">
-                                <a class="navbar-item" href="{{ path('auth.credentials.create') }}">
-                                    emails
-                                </a>
-                                <a class="navbar-item" href="{{ path('auth.logout') }}">
-                                    logout
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
         <!-- Message -->
         {% if message is defined %}
         <div class="is-notification">
@@ -75,6 +28,54 @@
 
         <!-- Body -->
         <section class="hero is-fullheight is-primary">
+            <div class="hero-header">
+                <!-- navbar -->
+                <nav class="navbar is-primary has-text-weight-bold is-uppercase">
+                    <div class="container">
+                        <div class="navbar-brand">
+                            <a class="navbar-item" href="{{ path('home') }}">
+                                <i class="fas fa-fire fa-2x"></i>
+                            </a>
+                            <div class="navbar-burger" data-target="navMenu">
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="navbar-menu" id="navMenu">
+                            <div class="navbar-start">
+                                <a href="{{ path('home') }}" class="navbar-item">
+                                    kindled
+                                </a>
+                                <a href="{{ path('pocket.list') }}" class="navbar-item">
+                                    pocket
+                                </a>
+                                <!-- <a class="navbar-item">
+                                    url
+                                </a> -->
+                            </div> 
+                            <div class="navbar-end">
+                                <a class="navbar-item" href="{{ path('info') }}">
+                                  info
+                                </a>
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link">
+                                      account
+                                    </a>
+                                    <div class="navbar-dropdown is-right is-boxed has-text-grey-dark">
+                                        <a class="navbar-item" href="{{ path('auth.credentials.create') }}">
+                                            emails
+                                        </a>
+                                        <a class="navbar-item" href="{{ path('auth.logout') }}">
+                                            logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
             <div class="hero-body">
                 <div class="container">
                     {% block body %}{% endblock %}
