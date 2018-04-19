@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   loadableButtons();
 });
 
-// Toggle navbar/burger menu
+// Toggle burger menu
 toggleBurgers = function() {
   var $navbarBurgers = document.querySelectorAll('.navbar-burger');
   $navbarBurgers.forEach(function ($el) {
@@ -37,6 +37,7 @@ loadableButtons = function() {
   $buttons.forEach(function ($el) { 
     $el.addEventListener('click', function () {
       $el.classList.add('is-loading');
+      setTimeout(function(){ $el.classList.remove('is-loading'); }, 5000);
     });
   });
 }

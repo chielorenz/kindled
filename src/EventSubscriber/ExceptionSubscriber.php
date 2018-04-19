@@ -28,6 +28,11 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     private $env;
 
+    /**
+     * @param UrlGeneratorInterface  $router
+     * @param LoggerInterface  $logger
+     * @param string  $env
+     */
 	public function __construct(UrlGeneratorInterface $router, LoggerInterface $logger, string $env) 
 	{
 		$this->router = $router;
