@@ -37,6 +37,7 @@ loadableButtons = function() {
   $buttons.forEach(function ($el) { 
     $el.addEventListener('click', function () {
       $el.classList.add('is-loading');
+      setTimeout(function(){ $el.classList.remove('is-loading'); }, 5000);
     });
   });
 }

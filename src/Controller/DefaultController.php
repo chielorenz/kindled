@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use App\Service\Pocket;
+use App\Service\Kindled;
+use App\Service\Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Service\Pocket;
-use App\Service\Kindled;
-use App\Service\Mailer;
 
 class DefaultController extends Controller
 {
@@ -40,6 +42,7 @@ class DefaultController extends Controller
      * @Route("/send", name="send")
      *
      * @param Request $request
+     * @param Kindled $kindled
      * @return Response
      */
     public function send(Request $request, Kindled $kindled, Mailer $mailer)
@@ -52,9 +55,36 @@ class DefaultController extends Controller
         
         $mobi = $kindled->convert($url);
         $mailer->send($mobi, $from, $to);
-        $kindled->clear();
 
         return $this->redirect($this->generateUrl('pocket.list', ['message' => 'Article sent!']));
+    }
+
+    /**
+     * @Route("/download", name="download")
+     *
+     * @param Request $request
+     * @param Kindled $kindled
+     * @return Response
+     */
+    public function download(Request $request, Kindled $kindled)
+    {
+        $url = $request->query->get('url');
+
+        $name = parse_url($url, PHP_URL_HOST);
+        $name = preg_split('/(?=\.[^.]+$)/', $name);
+        $name = reset($name);
+
+        $session = new Session();
+        $from = $session->get(self::FROM);
+        $to = $session->get(self::TO);
+        
+        $mobi = $kindled->convert($url);
+
+        $response = new BinaryFileResponse($mobi);
+        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name . '-article.mobi');
+        $response->headers->set('Content-Disposition', $disposition);
+    
+        return $response;
     }
 
     /**

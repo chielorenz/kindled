@@ -74,19 +74,6 @@ class Kindled
     }
 
     /**
-     * Sanitize an html file to be .mobi ready
-     * 
-     * @param string $html
-     */
-    public function sanitize($html)
-    {                    
-        $crawler = new Crawler($html);
-        $crawler = $this->filterTags($crawler);
-        $crawler = $this->fetchImages($crawler);
-        return $crawler->html();
-    }
-
-    /**
      * Clear all temp data
      */
     public function clear() 
@@ -97,6 +84,19 @@ class Kindled
                 unlink($file);
             }
         }
+    }
+
+    /**
+     * Sanitize an html file to be .mobi ready
+     * 
+     * @param string $html
+     */
+    private function sanitize($html)
+    {                    
+        $crawler = new Crawler($html);
+        $crawler = $this->filterTags($crawler);
+        $crawler = $this->fetchImages($crawler);
+        return $crawler->html();
     }
 
     /**
