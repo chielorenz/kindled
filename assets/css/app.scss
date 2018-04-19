@@ -9,12 +9,19 @@ $primary-invert: $purple-invert;
 
 @import "node_modules/bulma/sass/utilities/derived-variables";
 
-// TODO can remove important?!
 $navbar-dropdown-item-hover-color: #0a0a0a !important;
 $navbar-dropdown-item-hover-background-color: #f5f5f5 !important;
+
 $navbar-box-shadow-size: 0;
 
 @import "node_modules/bulma/bulma";
+
+// Override navbar dropdow color on desktop size
+.navbar.is-primary .navbar-dropdown .navbar-item {
+    @include tablet {
+        color: $grey-dark !important;
+    }
+}
 
 // Center articles tiles
 .columns.is-centered {
