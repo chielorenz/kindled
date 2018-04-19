@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   loadableButtons();
 });
 
-// Toggle navbar/burger menu
+// Toggle burger menu
 toggleBurgers = function() {
   var $navbarBurgers = document.querySelectorAll('.navbar-burger');
   $navbarBurgers.forEach(function ($el) {
