@@ -81,7 +81,7 @@ class DefaultController extends Controller
         $mobi = $kindled->convert($url);
 
         $response = new BinaryFileResponse($mobi);
-        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name . '-article.mobi');
+        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name . '_' . date('m_d') . '.mobi');
         $response->headers->set('Content-Disposition', $disposition);
     
         return $response;
