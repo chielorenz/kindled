@@ -39,6 +39,38 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/uri", methods={"GET"}, name="uri.create")
+     * 
+     * @param  Request  $request
+     */
+    public function uriCreate(Request $request)
+    {
+        return $this->render('uri.html.twig');
+    }
+
+    /**
+     * @Route("/uri", methods={"POST"}, name="uri.store")
+     * 
+     * @param  Request  $request
+     */
+    public function uriStore(Request $request)
+    {
+        $uri = $request->request->get('uri');
+
+        switch($_POST['type']) {
+            case 'download':
+                $response = $this->redirect($this->generateUrl('download', ['url' => $uri]));
+                break;
+            case 'send':
+            default:
+                $response = $this->redirect($this->generateUrl('send', ['url' => $uri]));
+                break;    
+        }     
+
+        return $response;
+    }
+
+    /**
      * @Route("/send", name="send")
      *
      * @param Request $request
@@ -81,7 +113,7 @@ class DefaultController extends Controller
         $mobi = $kindled->convert($url);
 
         $response = new BinaryFileResponse($mobi);
-        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name . '-article.mobi');
+        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name . '_' . date('m_d') . '.mobi');
         $response->headers->set('Content-Disposition', $disposition);
     
         return $response;

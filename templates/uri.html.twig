@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kindled | Uri{% endblock %}
+
+{% block body %}
+
+<div class="column is-6 is-offset-3">
+	<div class="notification is-white">
+		<form action="{{ path('uri.store') }}" method="post">
+			<div class="field">
+				<label class="label">Website url</label>
+				<div class="control">
+					<input name="uri" class="input" type="uri" placeholder="http://...">
+				</div>
+			</div>
+			<div class="control">
+				<button name="type" value="send" class="button is-primary is-centered">send</button>
+				<button name="type" value="download" class="button is-primary is-centered">download</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}
