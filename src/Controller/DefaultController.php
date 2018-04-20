@@ -39,6 +39,38 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/uri", methods={"GET"}, name="uri.create")
+     * 
+     * @param  Request  $request
+     */
+    public function uriCreate(Request $request)
+    {
+        return $this->render('uri.html.twig');
+    }
+
+    /**
+     * @Route("/uri", methods={"POST"}, name="uri.store")
+     * 
+     * @param  Request  $request
+     */
+    public function uriStore(Request $request)
+    {
+        $uri = $request->request->get('uri');
+
+        switch($_POST['type']) {
+            case 'download':
+                $response = $this->redirect($this->generateUrl('download', ['url' => $uri]));
+                break;
+            case 'send':
+            default:
+                $response = $this->redirect($this->generateUrl('send', ['url' => $uri]));
+                break;    
+        }     
+
+        return $response;
+    }
+
+    /**
      * @Route("/send", name="send")
      *
      * @param Request $request
