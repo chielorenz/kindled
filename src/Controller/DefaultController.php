@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DefaultController extends Controller
 {
@@ -63,7 +64,8 @@ class DefaultController extends Controller
                 break;
             case 'send':
             default:
-                $response = $this->redirect($this->generateUrl('send', ['url' => $uri]));
+                $redirect = 'uri.create';
+                $response = $this->redirect($this->generateUrl('send', ['url' => $uri, 'redirect' => $redirect]));
                 break;    
         }     
 
@@ -80,6 +82,7 @@ class DefaultController extends Controller
     public function send(Request $request, Kindled $kindled, Mailer $mailer)
     {   
         $url = $request->query->get('url');
+        $redirect = $request->query->get('redirect') ?: 'home';
         
         $session = new Session();
         $from = $session->get(self::FROM);
@@ -88,7 +91,7 @@ class DefaultController extends Controller
         $mobi = $kindled->convert($url);
         $mailer->send($mobi, $from, $to);
 
-        return $this->redirect($this->generateUrl('pocket.list', ['message' => 'Article sent!']));
+        return $this->redirect($this->generateUrl($redirect, ['message' => 'Article sent!'], UrlGeneratorInterface::ABSOLUTE_URL));
     }
 
     /**
@@ -124,7 +127,8 @@ class DefaultController extends Controller
      *
      * @return Response
      */
-    public function info() {
+    public function info()
+    {
         return $this->render('info.html.twig');
     }
 }

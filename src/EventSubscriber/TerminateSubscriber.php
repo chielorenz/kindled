@@ -30,7 +30,8 @@ class TerminateSubscriber implements EventSubscriberInterface
     /**
      * @param PostResponseEvent  $event
      */
-    public function onKernelTerminate(PostResponseEvent $event) {
+    public function onKernelTerminate(PostResponseEvent $event)
+    {
     	$this->kindled->clear();
     }
 }
