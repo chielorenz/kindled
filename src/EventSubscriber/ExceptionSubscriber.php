@@ -59,9 +59,11 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $this->logger->error($exception->getMessage());
 
         if($this->env == 'prod') {
+            // TODO use pocket
             $session = new Session();
             $session->set(Pocket::REQUEST_TOKEN, null);
             $session->set(Pocket::ACCESS_TOKEN, null);
+        
         	$redirectUrl = $this->router->generate('home', ['error' => 'Something went wrong... try again or contat us for help.']);
         	$event->setResponse(new RedirectResponse($redirectUrl));
         }        
