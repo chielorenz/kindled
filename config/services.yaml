@@ -42,6 +42,11 @@ services:
             $kindlegen: '%kernel.root_dir%%env(KINDLEGEN_PATH)%'
             $guzzle: '@guzzle'
 
+
+    App\Service\Credential\SessionCredential: ~
+    
+    App\Service\Credential\Credential: '@App\Service\Credential\SessionCredential'
+
     App\EventSubscriber\ExceptionSubscriber:
         arguments:
             $env: '%env(APP_ENV)%'
