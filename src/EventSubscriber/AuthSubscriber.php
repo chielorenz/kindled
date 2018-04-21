@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Service\Pocket;
 use App\Controller\DefaultController;
+use App\Service\Credential\Credential;
 use App\Controller\AuthenticatedController;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -28,11 +29,17 @@ class AuthSubscriber implements EventSubscriberInterface
 	private $router;
 
 	/**
+	 * @var Credential
+	 */
+	private $credential;
+
+	/**
 	 * @param UrlGeneratorInterface $router
 	 */
-	public function __construct(UrlGeneratorInterface $router) 
+	public function __construct(UrlGeneratorInterface $router, Credential $credential) 
 	{
 		$this->router = $router;
+		$this->credential = $credential;
 	}
 
 	public static function getSubscribedEvents()
@@ -62,9 +69,9 @@ class AuthSubscriber implements EventSubscriberInterface
 		}
 
     	if(in_array($route, self::EMAIL_AUTH)){
-	        $session = new Session();
-	        $from = $session->get(DefaultController::FROM);
-	        $to = $session->get(DefaultController::TO);
+	        $from = $this->credential->getFrom();
+	        $to = $this->credential->getTo();
+
 			if(!$from || !$to) {
 				$redirectUrl = $this->router->generate('auth.credentials.create', ['redirect' => $uri]);
 				$event->setController(function() use ($redirectUrl) {

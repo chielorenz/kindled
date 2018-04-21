@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Service\Pocket;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\Credential\Credential;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -45,23 +45,21 @@ class AuthController extends Controller
     /**
      * @Route("auth/credentials", methods={"POST"}, name="auth.credentials.store")
      */
-    public function credentialStore(Request $request) 
+    public function credentialStore(Request $request, Credential $credential) 
     {
-        $redirect = $request->query->get('redirect') ?: $this->generateUrl('pocket.list');
+        $redirect = $request->query->get('redirect') ?: $this->generateUrl('home');
         $from = $request->request->get('from');
         $to = $request->request->get('to');
 
-        // todo check emails validity
+        // validate url
+        
         if(!$from || !$to) {
-            $params = ['error' => 'Invalid adress'];
-            if($redirect) $params['redirect'] = $redirect;
-
+            $params = ['error' => 'Invalid addresses', 'redirect' => $redirect];
             return $this->redirect($this->generateUrl('auth.credentials.create', $params));
         }
 
-        $session = new Session();
-        $session->set(DefaultController::FROM, $from);
-        $session->set(DefaultController::TO, $to);
+        $credential->setFrom($from);
+        $credential->setTo($to);
 
         return $this->redirect($redirect);
     }
@@ -69,9 +67,9 @@ class AuthController extends Controller
     /**
      * @Route("auth/logout", name="auth.logout")
      */
-    public function logout() 
+    public function logout(Credential $credential) 
     {
-        session_unset();
+        $credential->clear();
         return $this->redirect($this->generateUrl('home'));
     }
 }

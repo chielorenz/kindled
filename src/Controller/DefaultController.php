@@ -8,17 +8,13 @@ use App\Service\Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\Session;
+use App\Service\Credential\Credential;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DefaultController extends Controller
 {
-    const FROM = 'from';
-    const TO = 'to';
-
     /**
      * @Route("/", name="home")
      */
@@ -64,8 +60,7 @@ class DefaultController extends Controller
                 break;
             case 'send':
             default:
-                $redirect = 'uri.create';
-                $response = $this->redirect($this->generateUrl('send', ['url' => $uri, 'redirect' => $redirect]));
+                $response = $this->redirect($this->generateUrl('send', ['url' => $uri, 'redirect' => 'uri.create']));
                 break;    
         }     
 
@@ -77,21 +72,23 @@ class DefaultController extends Controller
      *
      * @param Request $request
      * @param Kindled $kindled
+     * @param Credential $credential
      * @return Response
      */
-    public function send(Request $request, Kindled $kindled, Mailer $mailer)
+    public function send(Request $request, Kindled $kindled, Mailer $mailer, Credential $credential)
     {   
         $url = $request->query->get('url');
         $redirect = $request->query->get('redirect') ?: 'home';
+
+        // validate url
         
-        $session = new Session();
-        $from = $session->get(self::FROM);
-        $to = $session->get(self::TO);
-        
+        $from = $credential->getFrom();
+        $to = $credential->getTo();
+
         $mobi = $kindled->convert($url);
         $mailer->send($mobi, $from, $to);
 
-        return $this->redirect($this->generateUrl($redirect, ['message' => 'Article sent!'], UrlGeneratorInterface::ABSOLUTE_URL));
+        return $this->redirect($this->generateUrl($redirect, ['message' => 'Article sent!']));
     }
 
     /**
@@ -99,19 +96,21 @@ class DefaultController extends Controller
      *
      * @param Request $request
      * @param Kindled $kindled
+     * @param Credential $credential
      * @return Response
      */
-    public function download(Request $request, Kindled $kindled)
+    public function download(Request $request, Kindled $kindled, Credential $credential)
     {
         $url = $request->query->get('url');
+
+        // validate url
 
         $name = parse_url($url, PHP_URL_HOST);
         $name = preg_split('/(?=\.[^.]+$)/', $name);
         $name = reset($name);
 
-        $session = new Session();
-        $from = $session->get(self::FROM);
-        $to = $session->get(self::TO);
+        $from = $credential->getFrom();
+        $to = $credential->getTo();
         
         $mobi = $kindled->convert($url);
 
