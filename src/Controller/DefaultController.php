@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Service\Pocket;
 use App\Service\Kindled;
 use App\Service\Mailer;
+use App\Service\Credential\Credential;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\Credential\Credential;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,31 +36,31 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/uri", methods={"GET"}, name="uri.create")
+     * @Route("/url", methods={"GET"}, name="url.create")
      * 
      * @param  Request  $request
      */
-    public function uriCreate(Request $request)
+    public function urlCreate(Request $request)
     {
-        return $this->render('uri.html.twig');
+        return $this->render('url.html.twig');
     }
 
     /**
-     * @Route("/uri", methods={"POST"}, name="uri.store")
+     * @Route("/url", methods={"POST"}, name="url.store")
      * 
      * @param  Request  $request
      */
-    public function uriStore(Request $request)
+    public function urlStore(Request $request)
     {
-        $uri = $request->request->get('uri');
+        $url = $request->request->get('url');
 
         switch($_POST['type']) {
             case 'download':
-                $response = $this->redirect($this->generateUrl('download', ['url' => $uri]));
+                $response = $this->redirect($this->generateUrl('download', ['url' => $url]));
                 break;
             case 'send':
             default:
-                $response = $this->redirect($this->generateUrl('send', ['url' => $uri, 'redirect' => 'uri.create']));
+                $response = $this->redirect($this->generateUrl('send', ['url' => $url, 'redirect' => 'url.create']));
                 break;    
         }     
 
@@ -80,7 +80,7 @@ class DefaultController extends Controller
         $url = $request->query->get('url');
         $redirect = $request->query->get('redirect') ?: 'home';
 
-        // validate url
+        // todo validate url
         
         $from = $credential->getFrom();
         $to = $credential->getTo();
@@ -103,7 +103,7 @@ class DefaultController extends Controller
     {
         $url = $request->query->get('url');
 
-        // validate url
+        // todo validate url
 
         $name = parse_url($url, PHP_URL_HOST);
         $name = preg_split('/(?=\.[^.]+$)/', $name);

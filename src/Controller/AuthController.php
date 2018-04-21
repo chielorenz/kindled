@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Service\Pocket;
+use App\Service\Credential\Credential;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Service\Credential\Credential;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -51,7 +52,7 @@ class AuthController extends Controller
         $from = $request->request->get('from');
         $to = $request->request->get('to');
 
-        // validate url
+        // todo validate url
         
         if(!$from || !$to) {
             $params = ['error' => 'Invalid addresses', 'redirect' => $redirect];
@@ -70,6 +71,12 @@ class AuthController extends Controller
     public function logout(Credential $credential) 
     {
         $credential->clear();
+    
+        // TODO use pocket
+        $session = new Session();
+        $session->set(Pocket::REQUEST_TOKEN, null);
+        $session->set(Pocket::ACCESS_TOKEN, null);
+
         return $this->redirect($this->generateUrl('home'));
     }
 }

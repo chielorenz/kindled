@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Kindled | Uri{% endblock %}
+{% block title %}Kindled | Url{% endblock %}
 
 {% block body %}
 
 <div class="column is-6 is-offset-3">
 	<div class="notification is-white">
-		<form action="{{ path('uri.store') }}" method="post">
+		<form action="{{ path('url.store') }}" method="post">
 			<div class="field">
 				<label class="label">Website url</label>
 				<div class="control">
-					<input name="uri" class="input" type="uri" placeholder="http://...">
+					<input name="url" class="input" type="url" placeholder="http://...">
 				</div>
 			</div>
 			<div class="control">
