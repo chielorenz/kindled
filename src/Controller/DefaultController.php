@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\Pocket;
 use App\Service\Kindled;
 use App\Service\Mailer;
+use App\Service\Validator;
 use App\Service\Credential\Credential;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,12 +76,14 @@ class DefaultController extends Controller
      * @param Credential $credential
      * @return Response
      */
-    public function send(Request $request, Kindled $kindled, Mailer $mailer, Credential $credential)
+    public function send(Request $request, Kindled $kindled, Mailer $mailer, Credential $credential, Validator $validator)
     {   
         $url = $request->query->get('url');
         $redirect = $request->query->get('redirect') ?: 'home';
 
-        // todo validate url
+        if(!$validator->isValidUrl($url)) {
+            return $this->redirect($this->generateUrl($redirect, ['error' => 'Invalid url']));
+        }
         
         $from = $credential->getFrom();
         $to = $credential->getTo();
@@ -99,11 +102,13 @@ class DefaultController extends Controller
      * @param Credential $credential
      * @return Response
      */
-    public function download(Request $request, Kindled $kindled, Credential $credential)
+    public function download(Request $request, Kindled $kindled, Credential $credential, Validator $validator)
     {
         $url = $request->query->get('url');
 
-        // todo validate url
+        if(!$validator->isValidUrl($url)) {
+            return $this->redirect($this->generateUrl($redirect, ['error' => 'Invalid url']));
+        }
 
         $name = parse_url($url, PHP_URL_HOST);
         $name = preg_split('/(?=\.[^.]+$)/', $name);
