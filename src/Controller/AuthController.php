@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\Pocket;
+use App\Service\Validator;
 use App\Service\Credential\Credential;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,16 +47,14 @@ class AuthController extends Controller
     /**
      * @Route("auth/credentials", methods={"POST"}, name="auth.credentials.store")
      */
-    public function credentialStore(Request $request, Credential $credential) 
+    public function credentialStore(Request $request, Credential $credential, Validator $validator) 
     {
         $redirect = $request->query->get('redirect') ?: $this->generateUrl('home');
         $from = $request->request->get('from');
         $to = $request->request->get('to');
 
-        // todo validate url
-        
-        if(!$from || !$to) {
-            $params = ['error' => 'Invalid addresses', 'redirect' => $redirect];
+        if(!$validator->isValidEmail($from) || !$validator->isValidEmail($to)) {
+            $params = ['error' => 'Invalid addresse', 'redirect' => $redirect];
             return $this->redirect($this->generateUrl('auth.credentials.create', $params));
         }
 
