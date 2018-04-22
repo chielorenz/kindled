@@ -54,7 +54,7 @@ class AuthController extends Controller
         $to = $request->request->get('to');
 
         if(!$validator->isValidEmail($from) || !$validator->isValidEmail($to)) {
-            $params = ['error' => 'Invalid addresse', 'redirect' => $redirect];
+            $params = ['error' => 'Invalid address', 'redirect' => $redirect];
             return $this->redirect($this->generateUrl('auth.credentials.create', $params));
         }
 
