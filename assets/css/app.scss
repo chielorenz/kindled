@@ -45,6 +45,12 @@ $navbar-box-shadow-size: 0;
     }
 }
 
+// Set icon size to prevent fontawesome flickering
+.icon-size {
+    width: 48px;
+    height: 52px;
+}
+
 // Toast notification style
 .is-notification {
     position: fixed;
