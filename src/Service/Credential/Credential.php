@@ -10,9 +10,9 @@ interface Credential
 	public function setFrom(string $from);
 	
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getFrom() : string;
+	public function getFrom();
 
 	/**
 	 * @param string $to
@@ -20,9 +20,9 @@ interface Credential
 	public function setTo(string $to);
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getTo() : string;
+	public function getTo();
 
 	/**
 	 * Clear all credential

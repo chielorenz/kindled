@@ -28,9 +28,9 @@ class SessionCredential implements Credential
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getFrom() : string
+	public function getFrom()
 	{
 		return $this->session->get(self::FROM_EMAIL);
 	}
@@ -44,9 +44,9 @@ class SessionCredential implements Credential
 	}
 
 	/**
-	 * @return string
+	 * @return string | null
 	 */
-	public function getTo() : string
+	public function getTo()
 	{
 		return $this->session->get(self::TO_EMAIL);
 	}
