@@ -2,12 +2,14 @@
 
 namespace App\Service;
 
+use App\Service\Mercury;
+use Twig\Environment as Twig;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * This class works with HTML files and conterts them into .mobi files
+ * This class works with HTML files and converts them into .mobi files
  */
 class Kindled
 {
@@ -22,18 +24,33 @@ class Kindled
 	private $kindlegen;
 
     /**
+     * @var Mercury
+     */
+    private $mercury;
+
+    /**
      * @var Guzzle
      */
     private $guzzle;
 
     /**
+     * @var Twig
+     */
+    private $twig;
+
+    /**
      * @param string $folder Temporarly folder where to put the files
      * @param string $kindlegen Path to the Kindlegen binary
+     * @param Mercury $mercury
+     * @param Twig $twig
+     * @param Guzzle $guzzle
      */
-    public function __construct($folder, $kindlegen, Guzzle $guzzle)
+    public function __construct($folder, $kindlegen, Mercury $mercury, Twig $twig, Guzzle $guzzle)
     {
     	$this->folder = $folder;
     	$this->kindlegen = $kindlegen;
+        $this->mercury = $mercury;
+        $this->twig = $twig;
     	$this->guzzle = $guzzle;
     }
 
@@ -43,7 +60,7 @@ class Kindled
      * @param string  $url Url of the page to convert
      * @return string  Path to the .mobi file
      */
-    public function convert($url) 
+    public function convert($url) : string
     {
     	$title = uniqid();
 		$html = $this->folder . $title . '.html';
@@ -54,15 +71,11 @@ class Kindled
             mkdir($this->folder, 0777, true);
         }
 
-    	$content = $this->guzzle->request('get', $url)->getBody()->getContents();
+        $mercury = $this->mercury->parse($url);
+        $content = $this->twig->render('mobi/article.html.twig', $mercury);
         $content = $this->sanitize($content);
-
- 		try {
-            $content = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $content);
-        } catch(\Exception $e) {
-            $content = iconv('UTF-8', 'ISO-8859-1//IGNORE', $content);
-        }
-
+        $content = $this->encode($content);
+    
         file_put_contents($html, $content);
         exec($this->kindlegen . ' ' . $html . ' -verbose > ' . $log);
 
@@ -87,11 +100,27 @@ class Kindled
     }
 
     /**
+     * Set the right encoding
+     * 
+     * @param string  $html
+     * @return string
+     */
+    private function encode(string $html) : string
+    {
+        try {
+            return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $html);
+        } catch(\Exception $e) {
+            return  iconv('UTF-8', 'ISO-8859-1//IGNORE', $html);
+        }
+    }
+
+    /**
      * Sanitize an html file to be .mobi ready
      * 
-     * @param string $html
+     * @param string  $html
+     * @return string
      */
-    private function sanitize($html)
+    private function sanitize($html) : string
     {                    
         $crawler = new Crawler($html);
         $crawler = $this->filterTags($crawler);
@@ -105,10 +134,8 @@ class Kindled
      * @param Crawler  $crawler
      * @return Crawler  $crawler
      */
-    private function filterTags(Crawler $crawler)
+    private function filterTags(Crawler $crawler) : Crawler
     {
-    	$guzzle = $this->guzzle;
-
     	$crawler->filter('script, meta, input, select, textarea, link')->each(function ($crawler) {
     	    foreach ($crawler as $node) {
                 $node->parentNode->removeChild($node);
@@ -121,10 +148,10 @@ class Kindled
     /**
      * Make remove image local
      * 
-     * @param Crawler $crawler
-     * @return Crawler $crawler
+     * @param Crawler  $crawler
+     * @return Crawler  $crawler
      */
-    private function fetchImages(Crawler $crawler)
+    private function fetchImages(Crawler $crawler) : Crawler
     {
     	$guzzle = $this->guzzle;
     	

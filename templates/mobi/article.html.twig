@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+    	{% if lead_image_url is defined %}
+    		<img src="{{ lead_image_url }}" alt="cover image">
+    	{% endif %}
+    	<h1>{{ title }}</h1>
+    	<h2>
+    		{{ author }}
+    		{{ date_published | date("m/d/Y") }}
+    		{{ domain }}
+    	</h2>
+        {{ content | raw }}
+    </body>
+</html>
