@@ -32,8 +32,8 @@ class DefaultController extends Controller
      */
     public function articles(Request $request, Pocket $pocket)
     {
-        $articles = $pocket->articles();
-        return $this->render('articles.html.twig', ['articles' => $articles]);
+        $pockets = $pocket->articles();
+        return $this->render('pockets.html.twig', ['articles' => $pockets]);
     }
 
     /**

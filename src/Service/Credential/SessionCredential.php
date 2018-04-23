@@ -19,22 +19,34 @@ class SessionCredential implements Credential
 		$this->session = new Session();
 	}
 
+	/**
+	 * @param string $from
+	 */
 	public function setFrom(string $from) 
 	{
 		$this->session->set(self::FROM_EMAIL, $from);
 	}
 
-	public function getFrom() 
+	/**
+	 * @return string
+	 */
+	public function getFrom() : string
 	{
 		return $this->session->get(self::FROM_EMAIL);
 	}
 
+	/**
+	 * @param string $to
+	 */
 	public function setTo(string $to) 
 	{
 		$this->session->set(self::TO_EMAIL, $to);
 	}
 
-	public function getTo() 
+	/**
+	 * @return string
+	 */
+	public function getTo() : string
 	{
 		return $this->session->get(self::TO_EMAIL);
 	}

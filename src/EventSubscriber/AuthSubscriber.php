@@ -42,11 +42,11 @@ class AuthSubscriber implements EventSubscriberInterface
 		$this->credential = $credential;
 	}
 
-	public static function getSubscribedEvents()
+	public static function getSubscribedEvents() : array
     {
-        return array(
+        return [
             KernelEvents::CONTROLLER => 'onKernelController',
-        );
+        ];
     }
 
     /**

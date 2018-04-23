@@ -27,6 +27,7 @@ class Pocket
 
 	/**
 	 * @param string  $key  Pocket consumer key
+	 * @param Guzzle
 	 */
 	public function __construct($key, Guzzle $guzzle)
 	{
@@ -41,7 +42,7 @@ class Pocket
 	 * @param string  $redirect  The url to redirect to after the Pocket authentication
 	 * @return string  Url to redirect to
 	 */
-	public function authorize($redirect)
+	public function authorize($redirect) : string
 	{
      	$requestToken = $this->getRequestToken($redirect);
      	$this->persist($this::REQUEST_TOKEN, $requestToken);
@@ -63,7 +64,7 @@ class Pocket
 	 * 
 	 * @return array  List of Pocket articles
 	 */
-	public function articles()
+	public function articles() : array
 	{
 		$accessToken = $this->get($this::ACCESS_TOKEN);
 		return $this->getArticles($accessToken);
@@ -75,7 +76,7 @@ class Pocket
 	 * @param  string  $accessToken
 	 * @return array
 	 */
-	private function getArticles($accessToken)
+	private function getArticles($accessToken) : array
 	{
 		try {
 			$res = $this->guzzle->request(
@@ -106,7 +107,7 @@ class Pocket
 	 * 
 	 * @return string  Pocket request token
 	 */
-	private function getRequestToken($redirect)
+	private function getRequestToken($redirect) : string
 	{
 		try {
             $res = $this->guzzle->request(
@@ -132,7 +133,7 @@ class Pocket
 	 * 
 	 * @return string  Pocket acces token
 	 */
-	private function getAccessToken($requestToken)
+	private function getAccessToken($requestToken) : string
 	{
 		try {
             $res = $this->guzzle->request(
@@ -162,7 +163,7 @@ class Pocket
 	 * @param  string  $requestToken
 	 * @return string  url
 	 */
-	private function getRedirectUrl($requestToken, $redirect) 
+	private function getRedirectUrl($requestToken, $redirect) : string
 	{
 		return 'https://getpocket.com/auth/authorize?request_token=' . $requestToken .'&redirect_uri=' . $redirect;
 	}
@@ -185,7 +186,7 @@ class Pocket
 	 * @param  string $key
 	 * @return  string
 	 */
-	private function get($key)
+	private function get($key) : string
 	{
 	   $session = new Session();
        return $session->get($key);
@@ -196,7 +197,7 @@ class Pocket
 	 * 
 	 * @return array  Needed  headers
 	 */
-	private function getHeaders()
+	private function getHeaders() : array
 	{
 		return [
             'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',

@@ -12,7 +12,7 @@ interface Credential
 	/**
 	 * @return string
 	 */
-	public function getFrom();
+	public function getFrom() : string;
 
 	/**
 	 * @param string $to
@@ -22,7 +22,7 @@ interface Credential
 	/**
 	 * @return string
 	 */
-	public function getTo();
+	public function getTo() : string;
 
 	/**
 	 * Clear all credential
