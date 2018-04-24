@@ -159,16 +159,20 @@ class Kindled
     	    foreach ($crawler as $node) {
                 $class = $node->getAttribute('class');
                 $src = $node->getAttribute('src');
-                $image = $guzzle->request('get', $src)->getBody();
-                $extension = pathinfo(parse_url($src)['path'], PATHINFO_EXTENSION);
-                $file = uniqid().'.'.$extension;
-                file_put_contents($this->folder.$file, $image);
+                if($src) {
+                    $image = $guzzle->request('get', $src)->getBody();
+                    $extension = pathinfo(parse_url($src)['path'], PATHINFO_EXTENSION);
+                    $file = uniqid().'.'.$extension;
+                    file_put_contents($this->folder.$file, $image);
 
-                $dom = $node->ownerDocument;
-                $elem = $dom->createElement('img');
-                $elem->setAttribute('class', $class);
-                $elem->setAttribute('src', './'.$file);
-                $node->parentNode->replaceChild($elem, $node);
+                    $dom = $node->ownerDocument;
+                    $elem = $dom->createElement('img');
+                    $elem->setAttribute('class', $class);
+                    $elem->setAttribute('src', './'.$file);
+                    $node->parentNode->replaceChild($elem, $node);
+                } else {
+                    $node->parentNode->removeChild($node);
+                }
             }
         });	
 

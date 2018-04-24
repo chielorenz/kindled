@@ -11,8 +11,8 @@
 			<div class="card-image">
 				<a href="{{ article.resolved_url }}" target="_blank">
 					<figure class="image is-placeholder">
-						{% if article.top_image_url is defined %}
-						<object data="{{ article.top_image_url }}" type="image/png"></object>
+						{% if article.top_image_url is defined and  article.top_image_url matches '{^https://}' %}
+						<img src="{{ article.top_image_url }}" alt="Article preview">
 						{% endif %}
 					</figure>
 				</a>
