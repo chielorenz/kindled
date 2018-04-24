@@ -8,7 +8,6 @@ use App\Service\Mailer;
 use App\Service\Validator;
 use App\Service\Credential\Credential;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -18,6 +17,9 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="home")
+     * 
+     * @param Request  $request
+     * @param Pocket  $pocket
      */
     public function home(Request $request, Pocket $pocket)
     {
@@ -27,8 +29,8 @@ class DefaultController extends Controller
     /**
      * @Route("/list", name="pocket.list")
      * 
-     * @param Request $request
-     * @return Response
+     * @param Request  $request
+     * @param Pocket  $pocket
      */
     public function articles(Request $request, Pocket $pocket)
     {
@@ -49,7 +51,7 @@ class DefaultController extends Controller
     /**
      * @Route("/url", methods={"POST"}, name="url.store")
      * 
-     * @param  Request  $request
+     * @param Request  $request
      */
     public function urlStore(Request $request)
     {
@@ -57,7 +59,7 @@ class DefaultController extends Controller
 
         switch($_POST['type']) {
             case 'download':
-                $response = $this->redirect($this->generateUrl('download', ['url' => $url]));
+                $response = $this->redirect($this->generateUrl('download', ['url' => $url, 'redirect' => 'url.create']));
                 break;
             case 'send':
             default:
@@ -71,10 +73,11 @@ class DefaultController extends Controller
     /**
      * @Route("/send", name="send")
      *
-     * @param Request $request
-     * @param Kindled $kindled
-     * @param Credential $credential
-     * @return Response
+     * @param Request  $request
+     * @param Kindled  $kindled
+     * @param Mailer  $mailer
+     * @param Credential  $credential
+     * @param Validator  $validator
      */
     public function send(Request $request, Kindled $kindled, Mailer $mailer, Credential $credential, Validator $validator)
     {   
@@ -97,14 +100,15 @@ class DefaultController extends Controller
     /**
      * @Route("/download", name="download")
      *
-     * @param Request $request
-     * @param Kindled $kindled
-     * @param Credential $credential
-     * @return Response
+     * @param Request  $request
+     * @param Kindled  $kindled
+     * @param Credential  $credential
+     * @param Validator  $validator
      */
     public function download(Request $request, Kindled $kindled, Credential $credential, Validator $validator)
     {
         $url = $request->query->get('url');
+        $redirect = $request->query->get('redirect') ?: 'home';
 
         if(!$validator->isValidUrl($url)) {
             return $this->redirect($this->generateUrl($redirect, ['error' => 'Invalid url']));
@@ -128,8 +132,6 @@ class DefaultController extends Controller
 
     /**
      * @Route("/info", name="info")
-     *
-     * @return Response
      */
     public function info()
     {
