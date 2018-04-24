@@ -5,6 +5,7 @@ imagesContext.keys().forEach(imagesContext);
 document.addEventListener('DOMContentLoaded', function () {
   toggleBurgers();
   hideMessages();
+  autoHideMessages();
   loadableButtons();
 });
 
@@ -29,6 +30,16 @@ hideMessages = function() {
       $el.parentElement.parentElement.classList.toggle('is-hidden');
     });
   });
+}
+
+// Hide toast messages after 5 seconds
+autoHideMessages = function() {
+  setTimeout(function() { 
+    $messages = document.querySelectorAll('.message button.delete');
+    $messages.forEach(function ($el) { 
+      $el.parentElement.parentElement.classList.toggle('is-hidden');
+    });
+  }, 5000);
 }
 
 // Make the 'loadable' buttons show spinner when pressed
