@@ -12,7 +12,7 @@
 				<a href="{{ article.resolved_url }}" target="_blank">
 					<figure class="image is-placeholder">
 						{% if article.top_image_url is defined %}
-						<img src="{{ article.top_image_url }}" alt="Article preview">
+						<object data="{{ article.top_image_url }}" type="image/png"></object>
 						{% endif %}
 					</figure>
 				</a>
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			<footer class="card-footer has-text-primary">
-			    <a href="{{ path('send') }}?url={{ article.given_url | url_encode }}&redirect=pocket.list" class="card-footer-item is-loadable">Send</a>
+			    <a href="{{ path('send') }}?url={{ article.given_url | url_encode }}&amp;redirect=pocket.list" class="card-footer-item is-loadable">Send</a>
 			    <a href="{{ path('download') }}?url={{ article.given_url | url_encode }}" class="card-footer-item is-loadable">Download</a>
 		  	</footer>
 		</div>
