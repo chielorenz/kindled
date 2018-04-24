@@ -16,6 +16,8 @@ class AuthController extends Controller
 {
 	/**
      * @Route("/pocket/authorize", name="auth.pocket.authorize")
+     *
+     * @param Pocket  $pocket
      */
     public function authorize(Pocket $pocket)
     {
@@ -26,6 +28,8 @@ class AuthController extends Controller
 
     /**
      * @Route("/pocket/authorized", name="auth.pocket.authorized")
+     *
+     * @param Pocket $pocket
      */
     public function authorized(Pocket $pocket)
     {
@@ -46,6 +50,10 @@ class AuthController extends Controller
 
     /**
      * @Route("auth/credentials", methods={"POST"}, name="auth.credentials.store")
+     * 
+     * @param Request  $request
+     * @param Credential $ credential,
+     * @param Validator  $validator
      */
     public function credentialStore(Request $request, Credential $credential, Validator $validator) 
     {
@@ -66,16 +74,14 @@ class AuthController extends Controller
 
     /**
      * @Route("auth/logout", name="auth.logout")
+     *
+     * @param Credential  $credential
+     * @param Pocket  $pocket
      */
-    public function logout(Credential $credential) 
+    public function logout(Credential $credential, Pocket $pocket) 
     {
         $credential->clear();
-    
-        // TODO use pocket
-        $session = new Session();
-        $session->set(Pocket::REQUEST_TOKEN, null);
-        $session->set(Pocket::ACCESS_TOKEN, null);
-
+        $pocket->logout();
         return $this->redirect($this->generateUrl('home'));
     }
 }

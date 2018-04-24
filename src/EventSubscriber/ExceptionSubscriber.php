@@ -5,7 +5,6 @@ namespace App\EventSubscriber;
 use App\Service\Pocket;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -28,16 +27,23 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     private $env;
 
+    /** 
+     * @var Pocket environment
+     */
+    private $pocket;
+
     /**
      * @param UrlGeneratorInterface  $router
      * @param LoggerInterface  $logger
      * @param string  $env
+     * @param Pocket $pocket
      */
-	public function __construct(UrlGeneratorInterface $router, LoggerInterface $logger, string $env) 
+	public function __construct(UrlGeneratorInterface $router, LoggerInterface $logger, string $env, Pocket $pocket) 
 	{
 		$this->router = $router;
         $this->logger = $logger;
         $this->env = $env;
+        $this->pocket = $pocket;
 	}
 
 	/**
@@ -59,11 +65,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $this->logger->error($exception->getMessage());
 
         if($this->env == 'prod') {
-            // TODO use pocket
-            $session = new Session();
-            $session->set(Pocket::REQUEST_TOKEN, null);
-            $session->set(Pocket::ACCESS_TOKEN, null);
-        
+            $pocket->logout();
         	$redirectUrl = $this->router->generate('home', ['error' => 'Something went wrong... try again or contat us for help.']);
         	$event->setResponse(new RedirectResponse($redirectUrl));
         }        

@@ -71,6 +71,15 @@ class Pocket
 	}
 
 	/**
+	 * Delete Pocket tokens
+	 */
+	public function logout()
+	{
+		$this->persist(Pocket::REQUEST_TOKEN, null);
+        $this->persist(Pocket::ACCESS_TOKEN, null);
+	}
+
+	/**
 	 * Get Pocket articles
 	 * 
 	 * @param  string  $accessToken
