@@ -35,9 +35,9 @@ hideMessages = function() {
 // Hide toast messages after 5 seconds
 autoHideMessages = function() {
   setTimeout(function() { 
-    $messages = document.querySelectorAll('.message button.delete');
+    $messages = document.querySelectorAll('.message');
     $messages.forEach(function ($el) { 
-      $el.parentElement.parentElement.classList.toggle('is-hidden');
+      $el.classList.toggle('is-hidden');
     });
   }, 5000);
 }
