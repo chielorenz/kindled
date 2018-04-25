@@ -7,25 +7,27 @@
 <div class="container">
 	<div class="notification is-white has-text-dark">
 		<div class="content">
-			<h3>How it works</h3>
-			<p><span class="is-italic">Kindled</span> lets you read your favourite articles on your Kindle.</p>
-			<p>It converts a <a href="https://getpocket.com/">Pocket</a> article into a .mobi file and sends it to your Amazon account, you will need:</p>
+			<h1>Kindled</h1>
+			<p><span class="is-italic">Kindled</span> converts web pages into elegant and easy to read files that you can enjoy on your <a href="https://en.wikipedia.org/wiki/Amazon_Kindle" target="_blank">Kindle</a>.</p>
+
+			<h1>How it works</h1>
+			<p>For each <span class="is-italic">source</span> (more on this later) you can either send the converted file directly to your Kindle or download it via the corresponding buttons. In order to send to your Kindle you will need:</p>
 			<ol>
-				<li>Your @kindle.com address (can be found on the <a href="https://www.amazon.com/myk">/myk</a> section of the Amazon website)</li>
-				<li>An email previously authorized to send emails to your @kindle.com address</li>
+				<li>Your <span class="is-italic">@kindle.com</span> address (can be found <a href="https://www.amazon.com/myk#manageDevices" target="_blank">here</a>)</li>
+				<li>An email previously authorized to send emails to your <span class="is-italic">@kindle.com</span> address (instructions <a href="https://www.amazon.com/gp/sendtokindle/email" target="_blank">here</a>)</li>
 			</ol>
-			<p>It's pretty easy just go to the <a href="{{ path('pocket.list') }}">pocket section</a> and follow the instructions.</p>
-			<h3>Whats next?</h3>
-			<ol>
-				<li>Get more than 60 Pocket articles</li>
-				<li>Possibility to download the .mobi file</li>
-				<li>New section to convert any given url</li>
-				<li>File .mobi preview</li>
-				<li><a href="https://feedly.com/">Feedly</a> integration</li>
-				<li>Any tips?</li>
-			</ol>
-			<h3>Contacts</h3>
-			<p><a href="mailto:info@kindled.mobi?Subject=Hello%20Kindled" target="_top">Send mail</a></p>
+			<p>These addresses can be changed from the <a  href="{{ path('auth.credentials.create') }}">emails</a> section or removed by <a  href="{{ path('auth.logout') }}">logging out.</a><p>
+
+			<h1>Sources</h1>
+			<p>Basically you can convert any web pages with some readable content in it, but we got something more for you:</p>
+			<ul>
+				<li>You can convert any url from the <a  href="{{ path('url.create') }}">url</a> section</li>
+				<li>You can sync your <a href="https://getpocket.com">Pocket</a> account from the <a  href="{{ path('pocket.list') }}">pocket</a> section</li>
+				<li>More coming soon...</li>
+			</ul>
+
+			<h1>Contacts</h1>
+			<p><a href="mailto:info@kindled.mobi?Subject=Hello%20Kindled!" target="_top">Send us</a> your thoughts.</p>
 		</div>
 	</div>
 </div>
