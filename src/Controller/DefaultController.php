@@ -27,7 +27,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/list", name="pocket.list")
+     * @Route("/pocket", name="pocket.list")
      * 
      * @param Request  $request
      * @param Pocket  $pocket
