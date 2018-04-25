@@ -2,14 +2,16 @@
 <html lang="en">
     <head>
         <title>{% block title %}Kindled{% endblock %}</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        {% block head %}{% endblock %}
+       
         {% if env == 'prod' %}
         <!-- prevent mixed content that drops browsers https secure connection-->
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         {% endif %}
 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="keywords" content="send to kindle, convert to .mobi, pocket to kindle, website to kindle">
         <meta name="description" content="Kindled lets you read on your Kindle your favourite articles">
         <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
