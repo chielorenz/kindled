@@ -1,0 +1,4 @@
+https://kindled.mobi/
+https://kindled.mobi/url
+https://kindled.mobi/info
+https://kindled.mobi/auth/credentials
