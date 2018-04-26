@@ -3,11 +3,24 @@ const imagesContext = require.context('../images', true, /\.(png|jpg|jpeg|gif|ic
 imagesContext.keys().forEach(imagesContext);
 
 document.addEventListener('DOMContentLoaded', function () {
+  loadCookieConsens();
   toggleBurgers();
   hideMessages();
   autoHideMessages();
   loadableButtons();
 });
+
+// Load cookieconsent component
+loadCookieConsens = function() {
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": { "background": "#ffffff", "text": "#46237a" },
+      "button": { "background": "#46237a", "text": "#ffffff" }
+    },
+    "theme": "classic",
+    "content": { "dismiss": "GOT IT!" }
+  });
+}
 
 // Toggle burger menu
 toggleBurgers = function() {
