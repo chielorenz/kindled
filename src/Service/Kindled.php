@@ -157,9 +157,9 @@ class Kindled
     	
     	$crawler->filter('img')->each(function ($crawler) use ($guzzle) {
     	    foreach ($crawler as $node) {
-                $class = $node->getAttribute('class');
                 $src = $node->getAttribute('src');
                 if($src) {
+                    $src = $this->decodeSrcset($src);
                     $image = $guzzle->request('get', $src)->getBody();
                     $extension = pathinfo(parse_url($src)['path'], PATHINFO_EXTENSION);
                     $file = uniqid().'.'.$extension;
@@ -167,7 +167,6 @@ class Kindled
 
                     $dom = $node->ownerDocument;
                     $elem = $dom->createElement('img');
-                    $elem->setAttribute('class', $class);
                     $elem->setAttribute('src', './'.$file);
                     $node->parentNode->replaceChild($elem, $node);
                 } else {
@@ -177,5 +176,20 @@ class Kindled
         });	
 
     	return $crawler;
+    }
+
+    /**
+     * Convert a srcset attribute to a regular src attribute
+     * 
+     * @param  string  $src
+     * @return string
+     */
+    public function decodeSrcset(string $src) : string
+    {
+        $matches = [];
+        $src = urldecode($src);
+        preg_match('/[^"\'=\s]+\.(jpe?g|png|gif|ico|svg)/', $src, $matches);
+        $src = current($matches);
+        return $src;
     }
 }
