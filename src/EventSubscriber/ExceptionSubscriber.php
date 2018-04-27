@@ -65,7 +65,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $this->logger->error($exception->getMessage());
 
         if($this->env == 'prod') {
-            $pocket->logout();
+            $this->pocket->logout();
         	$redirectUrl = $this->router->generate('home', ['error' => 'Something went wrong... try again or contat us for help.']);
         	$event->setResponse(new RedirectResponse($redirectUrl));
         }        
