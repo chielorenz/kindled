@@ -82,3 +82,17 @@ $navbar-box-shadow-size: 0;
         }
     }
 }
+
+.landing {
+    @include mobile {
+        img {
+            display: none;     
+        }
+    }
+    .is-message { 
+        @include tablet {
+            position: relative;
+            top: -120px
+        }
+    }
+}

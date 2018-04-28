@@ -4,13 +4,18 @@
 
 {% block body %}
 
-<h1 class="title is-size-1">
-	Kindled <sup class="is-size-5">beta</sup>
-</h1>
-<h2 class="subtitle">
-	Read your favourite articles on your Kindle
-</h2>
-<a href="{{ path('url.create') }}" class="button is-primary is-inverted is-outlined is-uppercase">url</a>
-<a href="{{ path('pocket.list') }}" class="button is-primary is-inverted is-outlined is-uppercase">pocket</a>&nbsp;
+<div class="landing has-text-centered">
+
+	<img src="{{ asset('build/images/kindled-landing.svg') }}" alt="Kindled logo">
+	
+	<div class="is-message">
+		<h1 class="title is-size-1">Kindled <sup class="is-size-5">beta</sup></h1>
+		<h2 class="subtitle">Read your favourite articles on your Kindle</h2>
+
+		<a href="{{ path('url.create') }}" class="button is-primary is-inverted is-outlined is-uppercase">url</a>
+		<a href="{{ path('pocket.list') }}" class="button is-primary is-inverted is-outlined is-uppercase">pocket</a>
+	</div>
+</div>
+
 
 {% endblock %}
