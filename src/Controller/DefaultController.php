@@ -13,61 +13,17 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+/**
+ * This controller holds the main business logic
+ */
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="home")
-     * 
-     * @param Request  $request
-     * @param Pocket  $pocket
      */
-    public function home(Request $request, Pocket $pocket)
+    public function home()
     {
         return $this->render('home.html.twig');
-    }
-
-    /**
-     * @Route("/pocket", name="pocket.list")
-     * 
-     * @param Request  $request
-     * @param Pocket  $pocket
-     */
-    public function articles(Request $request, Pocket $pocket)
-    {
-        $pockets = $pocket->articles();
-        return $this->render('pockets.html.twig', ['articles' => $pockets]);
-    }
-
-    /**
-     * @Route("/url", methods={"GET"}, name="url.create")
-     * 
-     * @param  Request  $request
-     */
-    public function urlCreate(Request $request)
-    {
-        return $this->render('url.html.twig');
-    }
-
-    /**
-     * @Route("/url", methods={"POST"}, name="url.store")
-     * 
-     * @param Request  $request
-     */
-    public function urlStore(Request $request)
-    {
-        $url = $request->request->get('url');
-
-        switch($_POST['type']) {
-            case 'download':
-                $response = $this->redirect($this->generateUrl('download', ['url' => $url, 'redirect' => 'url.create']));
-                break;
-            case 'send':
-            default:
-                $response = $this->redirect($this->generateUrl('send', ['url' => $url, 'redirect' => 'url.create']));
-                break;    
-        }     
-
-        return $response;
     }
 
     /**

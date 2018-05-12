@@ -8,35 +8,13 @@ use App\Service\Credential\Credential;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * This controller manages the user credentials
+ */
 class AuthController extends Controller
 {
-	/**
-     * @Route("/pocket/authorize", name="auth.pocket.authorize")
-     *
-     * @param Pocket  $pocket
-     */
-    public function authorize(Pocket $pocket)
-    {
-    	$callback = $this->generateUrl('auth.pocket.authorized', [], UrlGeneratorInterface::ABSOLUTE_URL);
-    	$redirect = $pocket->authorize($callback);
-    	return $this->redirect($redirect);
-    }
-
-    /**
-     * @Route("/pocket/authorized", name="auth.pocket.authorized")
-     *
-     * @param Pocket $pocket
-     */
-    public function authorized(Pocket $pocket)
-    {
-    	$pocket->authorized();
-    	return $this->redirect($this->generateUrl('pocket.list'));
-    }
-
     /**
      * @Route("auth/credentials", methods={"GET"}, name="auth.credentials.create")
      * 
