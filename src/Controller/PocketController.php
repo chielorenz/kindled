@@ -4,13 +4,13 @@ namespace App\Controller;
 
 use App\Service\Pocket;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * This controller manages Pocket integration
  */
-class PocketController extends Controller
+class PocketController extends AbstractController
 {
 	/**
      * @Route("/pocket/authorize", name="auth.pocket.authorize")
