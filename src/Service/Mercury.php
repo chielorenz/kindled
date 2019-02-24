@@ -41,7 +41,7 @@ class Mercury
     {	
     	$res = $this->guzzle->request(
 			'get',
-			'https://mercury.postlight.com/parser',
+			'https://kindled.mobi/mercury',
 			[
                 'headers' => ['x-api-key' => $this->key, 'Content-Type' => 'application/json'],
                 'query' => [ 'url' => $url],
